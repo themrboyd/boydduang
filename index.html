@@ -26,14 +26,20 @@
             padding: 20px;
             text-align: center;
         }
-        #avatar {
+        #avatar-container {
             width: 150px;
             height: 150px;
-            border-radius: 50%;
             margin: 0 auto 20px;
-            display: block;
+            border-radius: 50%;
+            overflow: hidden;
             border: 3px solid #ffffff;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+        #avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
         }
         h1 {
             font-size: 2.5em;
@@ -43,10 +49,16 @@
             font-style: italic;
             margin-bottom: 20px;
         }
+        .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
         .links a {
             color: #ffffff;
             text-decoration: none;
-            margin: 0 10px;
             padding: 5px 10px;
             border: 1px solid #ffffff;
             border-radius: 5px;
@@ -66,17 +78,50 @@
         #emailContainer {
             margin-top: 10px;
         }
+        #terminal {
+            width: 80%;
+            max-width: 600px;
+            height: 300px;
+            margin: 20px auto;
+            background-color: #0a0a0a;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+            text-align: left;
+            border: 1px solid #333;
+        }
+        #terminal-content {
+            height: 100%;
+            overflow-y: auto;
+            color: #00ff00;
+        }
+        .cursor {
+            font-weight: bold;
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
     <div id="pixiCanvas"></div>
     <div class="content">
-        <img id="avatar" src="my_avatar.webp" alt="Boyd Duang">
+        <div id="avatar-container">
+            <img id="avatar" src="my_avatar.webp" alt="Boyd Duang">
+        </div>
         <h1>BOYD DUANG</h1>
         <p class="quote">"Coding is like solving a puzzle, but all the pieces are scattered in the dark."</p>
         <div class="links">
+            <a href="https://github.com/themrboyd" target="_blank">GitHub</a>
             <a href="https://ko-fi.com/boyduang" target="_blank">Support on Ko-fi</a>
             <a href="https://buymeacoffee.com/boydduang" target="_blank">Buy Me a Coffee</a>
+        </div>
+        <div id="terminal">
+            <div id="terminal-content"></div>
         </div>
         <button id="emailButton">Reveal Email</button>
         <div id="emailContainer"></div>
@@ -137,21 +182,21 @@
             }
         });
 
-        // Skills animation
-        const skills = ['PHP', 'JavaScript', 'Phaser', 'Node.js', 'WordPress Dev', 'GameMaker'];
+        // Updated skills animation
+        const skills = ['PHP', 'Codeigniter', 'JavaScript', 'React', 'Bootstrap', 'Phaser', 'PixiJS', 'Node.js', 'WordPress Plugin', 'Chrome Extension', 'GameMaker', 'Unity', 'MySQL', 'MongoDB'];
         const skillTexts = [];
 
         skills.forEach((skill, index) => {
             const skillText = new PIXI.Text(skill, {
                 fontFamily: 'Arial',
-                fontSize: 16,
+                fontSize: 14,
                 fill: 0xFFFFFF,
                 align: 'center',
             });
             skillText.x = Math.random() * (app.screen.width - skillText.width);
             skillText.y = Math.random() * (app.screen.height - skillText.height);
-            skillText.vx = (Math.random() - 0.5) * 2;
-            skillText.vy = (Math.random() - 0.5) * 2;
+            skillText.vx = (Math.random() - 0.5) * 1.5;
+            skillText.vy = (Math.random() - 0.5) * 1.5;
             app.stage.addChild(skillText);
             skillTexts.push(skillText);
         });
@@ -174,6 +219,47 @@
         window.addEventListener('resize', () => {
             app.renderer.resize(window.innerWidth, window.innerHeight);
         });
+
+        // Animated Terminal
+        const terminal = document.getElementById('terminal-content');
+        const terminalText = [
+            "Hello, World! I'm Boyd Duang.",
+            "Let me tell you a bit about myself:",
+            "",
+            "const boyd = {",
+            "    skills: ['PHP', 'JavaScript', 'React', 'Node.js', 'PixiJS'],",
+            "    passions: ['Web Development', 'Game Development'],",
+            "    currentlyLearning: 'Always something new!',",
+            "    funFact: 'I can code with my eyes closed... but I don't recommend it!'",
+            "};",
+            "",
+            "// Feel free to explore my projects and get in touch!",
+            "console.log('Thanks for visiting my profile!');"
+        ];
+
+        let line = 0;
+        let charIndex = 0;
+
+        function typeWriter() {
+            if (line < terminalText.length) {
+                if (charIndex < terminalText[line].length) {
+                    terminal.innerHTML += terminalText[line].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 30); // Adjust typing speed here
+                } else {
+                    terminal.innerHTML += '<br>';
+                    line++;
+                    charIndex = 0;
+                    setTimeout(typeWriter, 500); // Delay between lines
+                }
+            } else {
+                terminal.innerHTML += '<span class="cursor">|</span>';
+            }
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Start the typewriter effect
+        typeWriter();
 
         // Email reveal functionality
         document.getElementById('emailButton').addEventListener('click', () => {
