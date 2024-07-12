@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boyd Duang - Developer Profile</title>
     <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --terminal-bg: #0a0a0a;
+            --terminal-text: #00ff00;
+            --border-color: #333;
+        }
         body, html {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #ffffff;
-            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
         }
-       
         .content {
-            position: relative;
-            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
             text-align: center;
         }
@@ -26,7 +32,7 @@
             margin: 0 auto 20px;
             border-radius: 50%;
             overflow: hidden;
-            border: 3px solid #ffffff;
+            border: 3px solid var(--text-color);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
         #avatar {
@@ -50,22 +56,19 @@
             gap: 10px;
             margin-bottom: 20px;
         }
-        .links a {
-            color: #ffffff;
+        .links a, #emailButton {
+            color: var(--text-color);
             text-decoration: none;
             padding: 5px 10px;
-            border: 1px solid #ffffff;
+            border: 1px solid var(--text-color);
             border-radius: 5px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease;
         }
-        .links a:hover {
+        .links a:hover, #emailButton:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
         #emailButton {
             background: none;
-            border: 1px solid #ffffff;
-            color: #ffffff;
-            padding: 5px 10px;
             cursor: pointer;
             margin-top: 20px;
         }
@@ -77,32 +80,30 @@
             max-width: 600px;
             height: 300px;
             margin: 20px auto;
-            background-color: #0a0a0a;
+            background-color: var(--terminal-bg);
             border-radius: 5px;
             padding: 10px;
             font-family: 'Courier New', monospace;
             overflow: hidden;
             text-align: left;
-            border: 1px solid #333;
+            border: 1px solid var(--border-color);
         }
         #terminal-content {
             height: 100%;
             overflow-y: auto;
-            color: #00ff00;
+            color: var(--terminal-text);
         }
         .cursor {
             font-weight: bold;
             animation: blink 0.7s infinite;
         }
         @keyframes blink {
-            0% { opacity: 0; }
+            0%, 100% { opacity: 0; }
             50% { opacity: 1; }
-            100% { opacity: 0; }
         }
     </style>
 </head>
 <body>
-    
     <div class="content">
         <div id="avatar-container">
             <img id="avatar" src="my_avatar.webp" alt="Boyd Duang">
@@ -122,8 +123,6 @@
     </div>
 
     <script>
-    
-        // Animated Terminal
         const terminal = document.getElementById('terminal-content');
         const terminalText = [
             "Hello, World! I'm Boyd Duang.",
@@ -146,14 +145,14 @@
         function typeWriter() {
             if (line < terminalText.length) {
                 if (charIndex < terminalText[line].length) {
-                    terminal.innerHTML += terminalText[line].charAt(charIndex);
+                    terminal.textContent += terminalText[line][charIndex];
                     charIndex++;
-                    setTimeout(typeWriter, 30); // Adjust typing speed here
+                    requestAnimationFrame(typeWriter);
                 } else {
                     terminal.innerHTML += '<br>';
                     line++;
                     charIndex = 0;
-                    setTimeout(typeWriter, 500); // Delay between lines
+                    setTimeout(typeWriter, 500);
                 }
             } else {
                 terminal.innerHTML += '<span class="cursor">|</span>';
@@ -161,14 +160,12 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        // Start the typewriter effect
         typeWriter();
 
-        // Email reveal functionality
         document.getElementById('emailButton').addEventListener('click', () => {
             const emailContainer = document.getElementById('emailContainer');
             const email = 'tosaporn.boyd' + '@' + 'gmail.com';
-            emailContainer.innerHTML = `<a href="mailto:${email}" style="color: #ffffff;">${email}</a>`;
+            emailContainer.innerHTML = `<a href="mailto:${email}" style="color: var(--text-color);">${email}</a>`;
         });
     </script>
 </body>
