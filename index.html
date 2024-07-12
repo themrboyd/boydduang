@@ -4,230 +4,194 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boyd Duang - Developer Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
     <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --text-color: #333;
-            --bg-color: #ecf0f1;
-        }
-        
-        * {
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow: hidden;
         }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
+        #pixiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
         }
-        
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background-color: var(--primary-color);
-            color: #fff;
+        .content {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
             text-align: center;
-            padding: 2rem 0;
         }
-        
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 5px solid #fff;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: scale(0.5);
-            transition: opacity 1s ease, transform 1s ease;
-        }
-        
-        .profile-img.loaded {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
-        
         .quote {
             font-style: italic;
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease, transform 1s ease;
+            margin-bottom: 20px;
         }
-        
-        .quote.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        main {
-            padding: 2rem 0;
-        }
-        
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .skill {
-            background-color: var(--secondary-color);
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            opacity: 0;
-            transform: translateY(50px);
-        }
-        
-        .skill.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .skill:hover {
-            transform: translateY(-5px);
-            background-color: #e74c3c;
-        }
-        
-        .support-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .support-link {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: var(--primary-color);
-            color: #fff;
+        .links a {
+            color: #ffffff;
             text-decoration: none;
+            margin: 0 10px;
+            padding: 5px 10px;
+            border: 1px solid #ffffff;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s;
         }
-        
-        .support-link:hover {
-            background-color: #2980b9;
+        .links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
-        
-        .contact {
-            text-align: center;
-        }
-        
-        .reveal-email {
-            background-color: var(--secondary-color);
-            color: #fff;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+        #emailButton {
+            background: none;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 5px 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            margin-top: 20px;
         }
-        
-        .reveal-email:hover {
-            background-color: #34495e;
-        }
-        
-        #email-container {
-            margin-top: 1rem;
-            font-weight: bold;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        
-        #email-container.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .skills {
-                flex-direction: column;
-                align-items: center;
-            }
+        #emailContainer {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <img src="avatar.png" alt="Boyd Duang" class="profile-img">
-        <h1>Boyd Duang</h1>
+    <div id="pixiCanvas"></div>
+    <div class="content">
+        <h1>BOYD DUANG</h1>
         <p class="quote">"Coding is like solving a puzzle, but all the pieces are scattered in the dark."</p>
-    </header>
-    
-    <main class="container">
-        <section class="skills">
-            <div class="skill">PHP</div>
-            <div class="skill">JavaScript</div>
-            <div class="skill">Phaser</div>
-            <div class="skill">Node.js</div>
-            <div class="skill">WordPress Dev</div>
-            <div class="skill">GameMaker</div>
-            <div class="skill">And more...</div>
-        </section>
-        
-        <section class="support-links">
-            <a href="https://ko-fi.com/boyduang" target="_blank" class="support-link">Support on Ko-fi</a>
-            <a href="https://buymeacoffee.com/boydduang" target="_blank" class="support-link">Buy Me a Coffee</a>
-        </section>
-    
-        <section class="contact">
-            <h2>Get in touch</h2>
-            <button class="reveal-email" onclick="revealEmail()">Reveal Email</button>
-            <div id="email-container"></div>
-        </section>
-    </main>
+        <div class="links">
+            <a href="https://ko-fi.com/boyduang" target="_blank">Support on Ko-fi</a>
+            <a href="https://buymeacoffee.com/boydduang" target="_blank">Buy Me a Coffee</a>
+        </div>
+        <button id="emailButton">Reveal Email</button>
+        <div id="emailContainer"></div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animate profile image
-            const profileImg = document.querySelector('.profile-img');
-            profileImg.classList.add('loaded');
+        // Initialize PixiJS
+        const app = new PIXI.Application({
+            width: window.innerWidth,
+            height: window.innerHeight,
+            backgroundColor: 0x1a1a1a,
+            resolution: window.devicePixelRatio || 1,
+        });
+        document.getElementById('pixiCanvas').appendChild(app.view);
 
-            // Animate quote
-            setTimeout(() => {
-                const quote = document.querySelector('.quote');
-                quote.classList.add('loaded');
-            }, 500);
+        // Create particles
+        const particles = new PIXI.ParticleContainer(1000, {
+            scale: true,
+            position: true,
+            rotation: true,
+            uvs: true,
+            alpha: true,
+        });
+        app.stage.addChild(particles);
 
-            // Animate skills
-            const skills = document.querySelectorAll('.skill');
-            skills.forEach((skill, index) => {
-                setTimeout(() => {
-                    skill.classList.add('loaded');
-                }, index * 100);
+        const particleTexture = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==');
+
+        // Create particle objects
+        const particleCount = 200;
+        const particleObjects = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = new PIXI.Sprite(particleTexture);
+            particle.x = Math.random() * app.screen.width;
+            particle.y = Math.random() * app.screen.height;
+            particle.tint = 0xFFFFFF;
+            particle.alpha = 0.5;
+            particle.scale.set(0.5 + Math.random() * 1.5);
+            particle.vx = -1 + Math.random() * 2;
+            particle.vy = -1 + Math.random() * 2;
+            particles.addChild(particle);
+            particleObjects.push(particle);
+        }
+
+        // Load and add avatar
+        PIXI.Loader.shared.add('avatar', 'my_avatar.webp').load((loader, resources) => {
+            const avatar = new PIXI.Sprite(resources.avatar.texture);
+            avatar.width = 150;
+            avatar.height = 150;
+            avatar.x = app.screen.width / 2;
+            avatar.y = app.screen.height / 2;
+            avatar.anchor.set(0.5);
+            app.stage.addChild(avatar);
+
+            // Add glow effect to avatar
+            const glowFilter = new PIXI.filters.GlowFilter(15, 2, 1, 0xFFFFFF, 0.5);
+            avatar.filters = [glowFilter];
+
+            // Animate avatar
+            app.ticker.add(() => {
+                avatar.rotation += 0.01;
+                avatar.scale.x = 1 + Math.sin(app.ticker.lastTime / 1000) * 0.1;
+                avatar.scale.y = 1 + Math.sin(app.ticker.lastTime / 1000) * 0.1;
             });
         });
 
-        function revealEmail() {
-            const emailContainer = document.getElementById('email-container');
+        // Animate particles
+        app.ticker.add(() => {
+            for (let i = 0; i < particleObjects.length; i++) {
+                const particle = particleObjects[i];
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+
+                if (particle.x < 0 || particle.x > app.screen.width) {
+                    particle.vx *= -1;
+                }
+                if (particle.y < 0 || particle.y > app.screen.height) {
+                    particle.vy *= -1;
+                }
+            }
+        });
+
+        // Skills animation
+        const skills = ['PHP', 'JavaScript', 'Phaser', 'Node.js', 'WordPress Dev', 'GameMaker'];
+        const skillTexts = [];
+
+        skills.forEach((skill, index) => {
+            const skillText = new PIXI.Text(skill, {
+                fontFamily: 'Arial',
+                fontSize: 16,
+                fill: 0xFFFFFF,
+                align: 'center',
+            });
+            skillText.x = Math.random() * (app.screen.width - skillText.width);
+            skillText.y = Math.random() * (app.screen.height - skillText.height);
+            skillText.vx = (Math.random() - 0.5) * 2;
+            skillText.vy = (Math.random() - 0.5) * 2;
+            app.stage.addChild(skillText);
+            skillTexts.push(skillText);
+        });
+
+        app.ticker.add(() => {
+            skillTexts.forEach(skillText => {
+                skillText.x += skillText.vx;
+                skillText.y += skillText.vy;
+
+                if (skillText.x < 0 || skillText.x > app.screen.width - skillText.width) {
+                    skillText.vx *= -1;
+                }
+                if (skillText.y < 0 || skillText.y > app.screen.height - skillText.height) {
+                    skillText.vy *= -1;
+                }
+            });
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            app.renderer.resize(window.innerWidth, window.innerHeight);
+        });
+
+        // Email reveal functionality
+        document.getElementById('emailButton').addEventListener('click', () => {
+            const emailContainer = document.getElementById('emailContainer');
             const email = 'tosaporn.boyd' + '@' + 'gmail.com';
-            emailContainer.innerHTML = `<a href="mailto:${email}">${email}</a>`;
-            emailContainer.classList.add('revealed');
-        }
+            emailContainer.innerHTML = `<a href="mailto:${email}" style="color: #ffffff;">${email}</a>`;
+        });
     </script>
 </body>
 </html>
