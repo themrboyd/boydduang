@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boyd Duang - Developer Profile</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.3.3/pixi.min.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -14,12 +13,7 @@
             color: #ffffff;
             overflow: hidden;
         }
-        #pixiCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
+       
         .content {
             position: relative;
             z-index: 1;
@@ -108,7 +102,7 @@
     </style>
 </head>
 <body>
-    <div id="pixiCanvas"></div>
+    
     <div class="content">
         <div id="avatar-container">
             <img id="avatar" src="my_avatar.webp" alt="Boyd Duang">
@@ -128,98 +122,7 @@
     </div>
 
     <script>
-        // Initialize PixiJS
-        const app = new PIXI.Application({
-            width: window.innerWidth,
-            height: window.innerHeight,
-            backgroundColor: 0x1a1a1a,
-            resolution: window.devicePixelRatio || 1,
-        });
-        document.getElementById('pixiCanvas').appendChild(app.view);
-
-        // Create particles
-        const particles = new PIXI.ParticleContainer(1000, {
-            scale: true,
-            position: true,
-            rotation: true,
-            uvs: true,
-            alpha: true,
-        });
-        app.stage.addChild(particles);
-
-        const particleTexture = PIXI.Texture.from('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==');
-
-        // Create particle objects
-        const particleCount = 200;
-        const particleObjects = [];
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = new PIXI.Sprite(particleTexture);
-            particle.x = Math.random() * app.screen.width;
-            particle.y = Math.random() * app.screen.height;
-            particle.tint = 0xFFFFFF;
-            particle.alpha = 0.5;
-            particle.scale.set(0.5 + Math.random() * 1.5);
-            particle.vx = -1 + Math.random() * 2;
-            particle.vy = -1 + Math.random() * 2;
-            particles.addChild(particle);
-            particleObjects.push(particle);
-        }
-
-        // Animate particles
-        app.ticker.add(() => {
-            for (let i = 0; i < particleObjects.length; i++) {
-                const particle = particleObjects[i];
-                particle.x += particle.vx;
-                particle.y += particle.vy;
-
-                if (particle.x < 0 || particle.x > app.screen.width) {
-                    particle.vx *= -1;
-                }
-                if (particle.y < 0 || particle.y > app.screen.height) {
-                    particle.vy *= -1;
-                }
-            }
-        });
-
-        // Updated skills animation
-        const skills = ['PHP', 'Codeigniter', 'JavaScript', 'React', 'Bootstrap', 'Phaser', 'PixiJS', 'Node.js', 'WordPress Plugin', 'Chrome Extension', 'GameMaker', 'Unity', 'MySQL', 'MongoDB'];
-        const skillTexts = [];
-
-        skills.forEach((skill, index) => {
-            const skillText = new PIXI.Text(skill, {
-                fontFamily: 'Arial',
-                fontSize: 14,
-                fill: 0xFFFFFF,
-                align: 'center',
-            });
-            skillText.x = Math.random() * (app.screen.width - skillText.width);
-            skillText.y = Math.random() * (app.screen.height - skillText.height);
-            skillText.vx = (Math.random() - 0.5) * 1.5;
-            skillText.vy = (Math.random() - 0.5) * 1.5;
-            app.stage.addChild(skillText);
-            skillTexts.push(skillText);
-        });
-
-        app.ticker.add(() => {
-            skillTexts.forEach(skillText => {
-                skillText.x += skillText.vx;
-                skillText.y += skillText.vy;
-
-                if (skillText.x < 0 || skillText.x > app.screen.width - skillText.width) {
-                    skillText.vx *= -1;
-                }
-                if (skillText.y < 0 || skillText.y > app.screen.height - skillText.height) {
-                    skillText.vy *= -1;
-                }
-            });
-        });
-
-        // Resize handler
-        window.addEventListener('resize', () => {
-            app.renderer.resize(window.innerWidth, window.innerHeight);
-        });
-
+    
         // Animated Terminal
         const terminal = document.getElementById('terminal-content');
         const terminalText = [
