@@ -15,9 +15,10 @@
             overflow: hidden;
         }
         #pixiCanvas {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
+            z-index: -1;
         }
         .content {
             position: relative;
@@ -25,10 +26,14 @@
             padding: 20px;
             text-align: center;
         }
-        #avatarContainer {
+        #avatar {
             width: 150px;
             height: 150px;
+            border-radius: 50%;
             margin: 0 auto 20px;
+            display: block;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
         h1 {
             font-size: 2.5em;
@@ -66,7 +71,7 @@
 <body>
     <div id="pixiCanvas"></div>
     <div class="content">
-        <div id="avatarContainer"></div>
+        <img id="avatar" src="my_avatar.webp" alt="Boyd Duang">
         <h1>BOYD DUANG</h1>
         <p class="quote">"Coding is like solving a puzzle, but all the pieces are scattered in the dark."</p>
         <div class="links">
@@ -115,36 +120,6 @@
             particles.addChild(particle);
             particleObjects.push(particle);
         }
-
-        // Load and add avatar
-        PIXI.Loader.shared.add('avatar', 'my_avatar.webp').load((loader, resources) => {
-            const avatar = new PIXI.Sprite(resources.avatar.texture);
-            avatar.width = 150;
-            avatar.height = 150;
-            avatar.anchor.set(0.5);
-            
-            const avatarContainer = new PIXI.Container();
-            avatarContainer.addChild(avatar);
-            avatarContainer.x = app.screen.width / 2;
-            avatarContainer.y = 100; // Position from top
-            app.stage.addChild(avatarContainer);
-
-            // Add glow effect to avatar
-            const glowFilter = new PIXI.filters.GlowFilter(15, 2, 1, 0xFFFFFF, 0.5);
-            avatar.filters = [glowFilter];
-
-            // Animate avatar
-            app.ticker.add(() => {
-                avatar.rotation += 0.01;
-                avatar.scale.x = 1 + Math.sin(app.ticker.lastTime / 1000) * 0.1;
-                avatar.scale.y = 1 + Math.sin(app.ticker.lastTime / 1000) * 0.1;
-            });
-
-            // Resize handler for avatar
-            window.addEventListener('resize', () => {
-                avatarContainer.x = app.screen.width / 2;
-            });
-        });
 
         // Animate particles
         app.ticker.add(() => {
