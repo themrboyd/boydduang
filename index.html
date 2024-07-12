@@ -25,6 +25,11 @@
             padding: 20px;
             text-align: center;
         }
+        #avatarContainer {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
@@ -61,6 +66,7 @@
 <body>
     <div id="pixiCanvas"></div>
     <div class="content">
+        <div id="avatarContainer"></div>
         <h1>BOYD DUANG</h1>
         <p class="quote">"Coding is like solving a puzzle, but all the pieces are scattered in the dark."</p>
         <div class="links">
@@ -115,10 +121,13 @@
             const avatar = new PIXI.Sprite(resources.avatar.texture);
             avatar.width = 150;
             avatar.height = 150;
-            avatar.x = app.screen.width / 2;
-            avatar.y = app.screen.height / 2;
             avatar.anchor.set(0.5);
-            app.stage.addChild(avatar);
+            
+            const avatarContainer = new PIXI.Container();
+            avatarContainer.addChild(avatar);
+            avatarContainer.x = app.screen.width / 2;
+            avatarContainer.y = 100; // Position from top
+            app.stage.addChild(avatarContainer);
 
             // Add glow effect to avatar
             const glowFilter = new PIXI.filters.GlowFilter(15, 2, 1, 0xFFFFFF, 0.5);
@@ -129,6 +138,11 @@
                 avatar.rotation += 0.01;
                 avatar.scale.x = 1 + Math.sin(app.ticker.lastTime / 1000) * 0.1;
                 avatar.scale.y = 1 + Math.sin(app.ticker.lastTime / 1000) * 0.1;
+            });
+
+            // Resize handler for avatar
+            window.addEventListener('resize', () => {
+                avatarContainer.x = app.screen.width / 2;
             });
         });
 
