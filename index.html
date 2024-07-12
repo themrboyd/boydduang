@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boyd Duang - Developer Profile</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #ecf0f1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .profile-img.loaded {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .quote {
+            font-style: italic;
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .quote.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        main {
+            padding: 2rem 0;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .skill {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        
+        .skill.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .skill:hover {
+            transform: translateY(-5px);
+            background-color: #e74c3c;
+        }
+        
+        .support-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .support-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .support-link:hover {
+            background-color: #2980b9;
+        }
+        
+        .contact {
+            text-align: center;
+        }
+        
+        .reveal-email {
+            background-color: var(--secondary-color);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .reveal-email:hover {
+            background-color: #34495e;
+        }
+        
+        #email-container {
+            margin-top: 1rem;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        #email-container.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .skills {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="avatar.png" alt="Boyd Duang" class="profile-img">
+        <h1>Boyd Duang</h1>
+        <p class="quote">"Coding is like solving a puzzle, but all the pieces are scattered in the dark."</p>
+    </header>
+    
+    <main class="container">
+        <section class="skills">
+            <div class="skill">PHP</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">Phaser</div>
+            <div class="skill">Node.js</div>
+            <div class="skill">WordPress Dev</div>
+            <div class="skill">GameMaker</div>
+            <div class="skill">And more...</div>
+        </section>
+        
+        <section class="support-links">
+            <a href="https://ko-fi.com/boyduang" target="_blank" class="support-link">Support on Ko-fi</a>
+            <a href="https://buymeacoffee.com/boydduang" target="_blank" class="support-link">Buy Me a Coffee</a>
+        </section>
+        
+        <section class="contact">
+            <h2>Get in touch</h2>
+            <button class="reveal-email" onclick="revealEmail()">Reveal Email</button>
+            <div id="email-container"></div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate profile image
+            const profileImg = document.querySelector('.profile-img');
+            profileImg.classList.add('loaded');
+
+            // Animate quote
+            setTimeout(() => {
+                const quote = document.querySelector('.quote');
+                quote.classList.add('loaded');
+            }, 500);
+
+            // Animate skills
+            const skills = document.querySelectorAll('.skill');
+            skills.forEach((skill, index) => {
+                setTimeout(() => {
+                    skill.classList.add('loaded');
+                }, index * 100);
+            });
+        });
+
+        function revealEmail() {
+            const emailContainer = document.getElementById('email-container');
+            const email = 'tosaporn.boyd' + '@' + 'gmail.com';
+            emailContainer.innerHTML = `<a href="mailto:${email}">${email}</a>`;
+            emailContainer.classList.add('revealed');
+        }
+    </script>
+</body>
+</html>
