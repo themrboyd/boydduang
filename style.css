@@ -13,6 +13,10 @@ body, html {
     color: var(--text-color);
     overflow-x: hidden;
 }
+
+.text-left{
+    text-align: left;
+}
 .content {
     max-width: 800px;
     margin: 0 auto;
