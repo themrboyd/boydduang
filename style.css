@@ -15,7 +15,7 @@ body, html {
 }
 
 .text-left{
-    text-align: left;
+    text-align: left !important;
 }
 .content {
     max-width: 800px;
